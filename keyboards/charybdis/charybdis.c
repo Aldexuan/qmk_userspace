@@ -41,8 +41,8 @@
 typedef union {
     uint8_t raw;
     struct {
+        uint16_t pointer_dragscroll_dpi : 9; // 0-511
         uint8_t pointer_default_dpi : 4; // 16 steps available.
-        uint8_t pointer_dragscroll_dpi : 4; // 4 steps available.
         uint8_t pointer_sniping_dpi : 2; // 4 steps available.
         bool    is_dragscroll_enabled : 1;
         bool    is_sniping_enabled : 1;
@@ -76,15 +76,15 @@ static uint16_t get_pointer_sniping_dpi(charybdis_config_t* config) {
 //新加
 /** \brief Return the current value of the pointer's dragscroll-mode DPI. */
 static uint16_t get_pointer_dragscroll_dpi(charybdis_config_t* config) {
-    return (uint16_t)config->pointer_dragscroll_dpi * CHARYBDIS_DRAGSCROLL_DPI_CONFIG_STEP + CHARYBDIS_DRAGSCROLL_DPI;
+    return (uint16_t)config->pointer_dragscroll_dpi;
 }
 /** \brief Set the appropriate DPI for the input config. */
 static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
     if (config->is_dragscroll_enabled) {
 //    滚动模式下给固定的dpi
-        pointing_device_set_cpi(CHARYBDIS_DRAGSCROLL_DPI);
+//        pointing_device_set_cpi(CHARYBDIS_DRAGSCROLL_DPI);
 //      滚动模式下给动态调节的dpi
-//        pointing_device_set_cpi(get_pointer_dragscroll_dpi(config));
+        pointing_device_set_cpi(get_pointer_dragscroll_dpi(config));
     } else if (config->is_sniping_enabled) {
 //    获取到当前的dpi，然后进行赋值
         pointing_device_set_cpi(get_pointer_sniping_dpi(config));
@@ -108,8 +108,19 @@ static void step_pointer_sniping_dpi(charybdis_config_t* config, bool forward) {
     maybe_update_pointing_device_cpi(config);
 }
 //新加
-static void step_pointer_dragscroll_dpi(charybdis_config_t* config, bool forward) {
-    config->pointer_dragscroll_dpi += forward ? 1 : -1;
+static void step_pointer_dragscroll_dpi(charybdis_config_t* config) {
+    config->pointer_dragscroll_dpi += 50;
+    if(config.pointer_dragscroll_dpi > 500){
+                user_config.pointer_dragscroll_dpi = 100;
+            }
+    maybe_update_pointing_device_cpi(config);
+}
+
+static void step_pointer_dragscroll_dpi-(charybdis_config_t* config) {
+    config->pointer_dragscroll_dpi -= 50;
+    if(config.pointer_dragscroll_dpi > 500){
+                user_config.pointer_dragscroll_dpi = 500;
+            }
     maybe_update_pointing_device_cpi(config);
 }
 
@@ -137,11 +148,6 @@ void charybdis_cycle_pointer_default_dpi(bool forward) {
 
 void charybdis_cycle_pointer_sniping_dpi(bool forward) {
     step_pointer_sniping_dpi(&g_charybdis_config, forward);
-    write_charybdis_config_to_eeprom(&g_charybdis_config);
-}
-//新加
-void charybdis_cycle_pointer_dragscroll_dpi(bool forward) {
-    step_pointer_dragscroll_dpi(&g_charybdis_config, forward);
     write_charybdis_config_to_eeprom(&g_charybdis_config);
 }
 
@@ -289,13 +295,16 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         case POINTER_DRAGSCROLL_DPI_FORWARD:
             if (record->event.pressed) {
                 // Step backward if shifted, forward otherwise.
-                charybdis_cycle_pointer_dragscroll_dpi(/* forward= */ !has_shift_mod());
+//                charybdis_cycle_pointer_dragscroll_dpi(/* forward= */ !has_shift_mod());
+                step_pointer_dragscroll_dpi();
             }
             break;
         case POINTER_DRAGSCROLL_DPI_REVERSE:
             if (record->event.pressed) {
                 // Step forward if shifted, backward otherwise.
-                charybdis_cycle_pointer_dragscroll_dpi(/* forward= */ has_shift_mod());
+//                charybdis_cycle_pointer_dragscroll_dpi(/* forward= */ has_shift_mod());
+                step_pointer_dragscroll_dpi-();
+
             }
             break;
         case DRAGSCROLL_MODE:
