@@ -59,8 +59,7 @@ enum charybdis_keycodes {
 #define AUTO_THRESHOLD AUTO_THRESHOLD
 #define TInfo TInfo
 #define T_SAVE T_SAVE
-#endif // !NO_CHARYBDIS_KEYCODES
-
+#endif // !NO_CHARYBDIS_KEYCOD
 /** \brief Return the current DPI value for the pointer's default mode. */
 uint16_t charybdis_get_pointer_default_dpi(void);
 
@@ -126,9 +125,6 @@ bool charybdis_get_pointer_dragscroll_enabled(void);
  * are translated into horizontal and vertical scroll movements.
  */
 void charybdis_set_pointer_dragscroll_enabled(bool enable);
-
-
-
 void trackball_oled_info(void);
 void trackball_oled_default(void);
 #endif // POINTING_DEVICE_ENABLE
