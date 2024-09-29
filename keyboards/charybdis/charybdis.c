@@ -82,9 +82,9 @@ static uint16_t get_pointer_dragscroll_dpi(charybdis_config_t* config) {
 static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
     if (config->is_dragscroll_enabled) {
 //    滚动模式下给固定的dpi
-//        pointing_device_set_cpi(CHARYBDIS_DRAGSCROLL_DPI);
+        pointing_device_set_cpi(CHARYBDIS_DRAGSCROLL_DPI);
 //      滚动模式下给动态调节的dpi
-        pointing_device_set_cpi(get_pointer_dragscroll_dpi(config));
+//        pointing_device_set_cpi(get_pointer_dragscroll_dpi(config));
     } else if (config->is_sniping_enabled) {
 //    获取到当前的dpi，然后进行赋值
         pointing_device_set_cpi(get_pointer_sniping_dpi(config));
