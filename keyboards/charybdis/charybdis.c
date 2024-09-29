@@ -110,16 +110,16 @@ static void step_pointer_sniping_dpi(charybdis_config_t* config, bool forward) {
 //新加
 static void step_pointer_dragscroll_dpi(charybdis_config_t* config) {
     config->pointer_dragscroll_dpi += 50;
-    if(config.pointer_dragscroll_dpi > 500){
-                user_config.pointer_dragscroll_dpi = 100;
+    if(config->pointer_dragscroll_dpi > 500){
+               config->pointer_dragscroll_dpi = 100;
             }
     maybe_update_pointing_device_cpi(config);
 }
 
-static void step_pointer_dragscroll_dpi-(charybdis_config_t* config) {
+static void step_pointer_dragscroll_dpi_jian(charybdis_config_t* config) {
     config->pointer_dragscroll_dpi -= 50;
-    if(config.pointer_dragscroll_dpi > 500){
-                user_config.pointer_dragscroll_dpi = 500;
+    if(config->pointer_dragscroll_dpi > 500){
+                config->pointer_dragscroll_dpi = 500;
             }
     maybe_update_pointing_device_cpi(config);
 }
@@ -303,7 +303,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             if (record->event.pressed) {
                 // Step forward if shifted, backward otherwise.
 //                charybdis_cycle_pointer_dragscroll_dpi(/* forward= */ has_shift_mod());
-                step_pointer_dragscroll_dpi-();
+                step_pointer_dragscroll_dpi_jian();
 
             }
             break;
