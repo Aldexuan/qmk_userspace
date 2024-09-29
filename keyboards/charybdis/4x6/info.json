@@ -1,50 +1,16 @@
 {
-    "keyboard_name": "Trackball 60",
-    "url": "",
-    "manufacturer": "MortalCustom",
-    "maintainer": "MortalCustom",
+    "manufacturer": "Bastard Keyboards",
+    "url": "https://bastardkb.com/charybdis",
     "usb": {
-        "vid": "0x414D",
-        "pid": "0x414E",
-        "device_version": "0.0.1"
+        "pid": "0x1833",
+        "vid": "0xA8F8"
     },
     "rgb_matrix": {
-        "driver": "ws2812"
+        "split_count": [29, 29]
     },
-    "matrix_pins": {
-        "cols": ["GP27", "GP28", "GP21", "GP6", "GP7", "GP8", "GP12"],
-        "rows": ["GP29", "GP26", "GP4", "GP5", "GP9"]
+    "layout_aliases": {
+        "LAYOUT_charybdis_4x6": "LAYOUT"
     },
-    "processor": "RP2040",
-    "bootloader": "rp2040",
-    "diode_direction": "COL2ROW",
-    "ws2812": {
-        "pin": "GP0",
-        "driver": "vendor"
-    },
-    "encoder": {
-        "rotary": [
-            {"pin_a": "GP14", "pin_b": "GP13", "resolution": 4}
-        ]
-    },
-    "split": {
-        "soft_serial_pin": "GP1",
-        "encoder": {
-            "right": {
-                "rotary": [
-                    {"pin_a": "GP14", "pin_b": "GP13", "resolution": 4}
-                ]
-            }
-        }
-    },
-    "features": {
-        "bootmagic": true,
-        "command": false,
-        "console": false,
-        "extrakey": true,
-        "mousekey": true,
-        "nkro": true
-      },
     "layouts": {
         "LAYOUT": {
             "layout": [

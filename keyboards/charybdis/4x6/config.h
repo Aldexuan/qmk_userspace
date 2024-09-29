@@ -18,25 +18,5 @@
 
 #pragma once
 
-/* Key matrix configuration. */
-//#define MATRIX_ROWS 10 // Rows are doubled-up.
-//#define MATRIX_COLS 7
-
-
-/* Set 0 if debouncing isn't needed. */
-#define DEBOUNCE 5
-
-/* Trackball angle adjustment.
-旋转角度仅支持 -127 到 127。
-*/
+/* Trackball angle adjustment. */
 #define ROTATIONAL_TRANSFORM_ANGLE -25
-
-
-/* RGB settings. */
-#ifdef RGB_MATRIX_ENABLE
-#    define RGBLED_NUM 61
-#    define RGBLED_SPLIT \
-        { 32, 29 }
-#    define DRIVER_LED_TOTAL RGBLED_NUM
-#    define RGB_MATRIX_SPLIT RGBLED_SPLIT
-#endif
