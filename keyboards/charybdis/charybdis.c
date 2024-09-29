@@ -26,7 +26,7 @@
 
 // Fixed DPI for drag-scroll.
 #    ifndef CHARYBDIS_DRAGSCROLL_DPI
-#        define CHARYBDIS_DRAGSCROLL_DPI 10
+#        define CHARYBDIS_DRAGSCROLL_DPI 100
 #    endif // CHARYBDIS_DRAGSCROLL_DPI
 //滚动模式加减步
 #    ifndef CHARYBDIS_DRAGSCROLL_DPI_CONFIG_STEP
@@ -125,6 +125,10 @@ uint16_t charybdis_get_pointer_dragscroll_dpi(void) {
     return get_pointer_dragscroll_dpi(&g_charybdis_config);
 }
 
+void charybdis_cycle_pointer_default_dpi_noeeprom(bool forward) {
+    step_pointer_default_dpi(&g_charybdis_config, forward);
+}
+
 
 void charybdis_cycle_pointer_default_dpi(bool forward) {
     step_pointer_default_dpi(&g_charybdis_config, forward);
@@ -145,6 +149,7 @@ bool charybdis_get_pointer_sniping_enabled(void) {
     return g_charybdis_config.is_sniping_enabled;
 }
 
+
 void charybdis_set_pointer_sniping_enabled(bool enable) {
     g_charybdis_config.is_sniping_enabled = enable;
     maybe_update_pointing_device_cpi(&g_charybdis_config);
@@ -159,7 +164,9 @@ void charybdis_set_pointer_dragscroll_enabled(bool enable) {
     maybe_update_pointing_device_cpi(&g_charybdis_config);
 }
 
-
+void charybdis_cycle_pointer_sniping_dpi_noeeprom(bool forward) {
+    step_pointer_sniping_dpi(&g_charybdis_config, forward);
+}
 /**
  * \brief Augment the pointing device behavior.
  *
@@ -368,6 +375,18 @@ void housekeeping_task_kb(void) {
 #    endif // CHARYBDIS_CONFIG_SYNC
 #endif     // POINTING_DEVICE_ENABLE
 
+#if defined(KEYBOARD_bastardkb_charybdis_3x5_blackpill) || defined(KEYBOARD_bastardkb_charybdis_4x6_blackpill)
+void keyboard_pre_init_kb(void) {
+    gpio_set_pin_input_high(A0);
+    keyboard_pre_init_user();
+}
+void matrix_scan_kb(void) {
+    if (!gpio_read_pin(A0)) {
+        reset_keyboard();
+    }
+    matrix_scan_user();
+}
+#endif // KEYBOARD_bastardkb_charybdis_3x5_blackpill || KEYBOARD_bastardkb_charybdis_4x6_blackpill
 
 bool shutdown_kb(bool jump_to_bootloader) {
     if (!shutdown_user(jump_to_bootloader)) {
