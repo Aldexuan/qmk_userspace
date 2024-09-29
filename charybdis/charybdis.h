@@ -31,35 +31,17 @@ enum charybdis_keycodes {
     SNIPING_MODE_TOGGLE,
     DRAGSCROLL_MODE,
     DRAGSCROLL_MODE_TOGGLE,
-    POINTER_DRAGSCROLL_DPI_FORWARD,
-    POINTER_DRAGSCROLL_DPI_REVERSE,
-    AUTO_MODE_TOGGLE,
-    AUTO_TIME_50,
-    AUTO_TIME_50R,
-    AUTO_TIME_100,
-    AUTO_THRESHOLD,
-    TInfo,
-    T_SAVE,
 };
 
-#define DPI_MOD POINTER_DEFAULT_DPI_FORWARD
-#define DPI_RMOD POINTER_DEFAULT_DPI_REVERSE
-#define S_D_MOD POINTER_SNIPING_DPI_FORWARD
-#define S_D_RMOD POINTER_SNIPING_DPI_REVERSE
-#define SNIPING SNIPING_MODE
-#define SNP_TOG SNIPING_MODE_TOGGLE
-#define DRGSCRL DRAGSCROLL_MODE
-#define DRG_TOG DRAGSCROLL_MODE_TOGGLE
-#define DRG_MOD POINTER_DRAGSCROLL_DPI_FORWARD
-#define DRG_RMOD POINTER_DRAGSCROLL_DPI_REVERSE
-#define AUTO_TOG AUTO_MODE_TOGGLE
-#define AUTO_TIME_50 AUTO_TIME_50
-#define AUTO_TIME_50R AUTO_TIME_50R
-#define AUTO_TIME_100 AUTO_TIME_100
-#define AUTO_THRESHOLD AUTO_THRESHOLD
-#define TInfo TInfo
-#define T_SAVE T_SAVE
-#endif // !NO_CHARYBDIS_KEYCODES
+#        define DPI_MOD POINTER_DEFAULT_DPI_FORWARD
+#        define DPI_RMOD POINTER_DEFAULT_DPI_REVERSE
+#        define S_D_MOD POINTER_SNIPING_DPI_FORWARD
+#        define S_D_RMOD POINTER_SNIPING_DPI_REVERSE
+#        define SNIPING SNIPING_MODE
+#        define SNP_TOG SNIPING_MODE_TOGGLE
+#        define DRGSCRL DRAGSCROLL_MODE
+#        define DRG_TOG DRAGSCROLL_MODE_TOGGLE
+#    endif // !NO_CHARYBDIS_KEYCODES
 
 /** \brief Return the current DPI value for the pointer's default mode. */
 uint16_t charybdis_get_pointer_default_dpi(void);
@@ -126,9 +108,4 @@ bool charybdis_get_pointer_dragscroll_enabled(void);
  * are translated into horizontal and vertical scroll movements.
  */
 void charybdis_set_pointer_dragscroll_enabled(bool enable);
-
-
-
-void trackball_oled_info(void);
-void trackball_oled_default(void);
 #endif // POINTING_DEVICE_ENABLE
