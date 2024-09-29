@@ -689,7 +689,7 @@ static void tv_ms(void) {
     char auto_m[2];
     snprintf(auto_m, sizeof(auto_m), "%d", user_config.is_auto_enabled);
     oled_write(auto_m, false);
-    trackball_oled_default();
+//    trackball_oled_default();
 //    自动切层模式
     oled_write_P(PSTR("ATV  :"), false);
     char count_atv_str[2];
@@ -702,7 +702,7 @@ static void tv_ms(void) {
     oled_write_ln(count_ams_str, false);
 
     //   滚动/阻击模式OLED
-    trackball_oled_info();
+//    trackball_oled_info();
 
     #if OLED_TIMEOUT > 0
     /* the animation prevents the normal timeout from occuring
