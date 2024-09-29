@@ -296,14 +296,14 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             if (record->event.pressed) {
                 // Step backward if shifted, forward otherwise.
 //                charybdis_cycle_pointer_dragscroll_dpi(/* forward= */ !has_shift_mod());
-                step_pointer_dragscroll_dpi();
+                step_pointer_dragscroll_dpi(&g_charybdis_config);
             }
             break;
         case POINTER_DRAGSCROLL_DPI_REVERSE:
             if (record->event.pressed) {
                 // Step forward if shifted, backward otherwise.
 //                charybdis_cycle_pointer_dragscroll_dpi(/* forward= */ has_shift_mod());
-                step_pointer_dragscroll_dpi_jian();
+                step_pointer_dragscroll_dpi_jian(&g_charybdis_config);
 
             }
             break;
