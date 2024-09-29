@@ -18,7 +18,7 @@
  */
 
 //#include "4x7.h"
-
+#include "charybdis.h"
 // clang-format off
 #ifdef RGB_MATRIX_ENABLE
 /**
