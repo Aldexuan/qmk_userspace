@@ -417,7 +417,7 @@ void trackball_oled_info(void) {
 
     oled_write_P(PSTR(" DRG-DPI:"), false);
     char count_dragscroll_str[6];
-    snprintf(count_dragscroll_str, sizeof(count_dragscroll_str), "%d", charybdis_get_pointer_dragscroll_dpi());
+    snprintf(count_dragscroll_str, sizeof(count_dragscroll_str), "%d", g_charybdis_config.pointer_dragscroll_dpi);
     oled_write_ln(count_dragscroll_str, false);
 
 //    trackball_oled_default();
