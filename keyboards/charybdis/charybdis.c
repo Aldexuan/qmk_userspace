@@ -24,14 +24,6 @@
 #        define CHARYBDIS_SNIPING_DPI_CONFIG_STEP 100
 #    endif // CHARYBDIS_SNIPING_DPI_CONFIG_STEP
 
-// Fixed DPI for drag-scroll.
-#    ifndef CHARYBDIS_DRAGSCROLL_DPI
-#        define CHARYBDIS_DRAGSCROLL_DPI 200
-#    endif // CHARYBDIS_DRAGSCROLL_DPI
-
-#    ifndef CHARYBDIS_DRAGSCROLL_BUFFER_SIZE
-#        define CHARYBDIS_DRAGSCROLL_BUFFER_SIZE 6
-#    endif // !CHARYBDIS_DRAGSCROLL_BUFFER_SIZE
 
 typedef union {
     uint8_t raw;
@@ -47,8 +39,20 @@ typedef union {
 static charybdis_config_t g_charybdis_config = {0};
 
 
+// Fixed DPI for drag-scroll.
+#    ifndef CHARYBDIS_DRAGSCROLL_DPI
+#        define CHARYBDIS_DRAGSCROLL_DPI g_charybdis_config.pointer_dragscroll_dpi
+#    endif // CHARYBDIS_DRAGSCROLL_DPI
+//100 6
+#    ifndef CHARYBDIS_DRAGSCROLL_BUFFER_SIZE
+#        define CHARYBDIS_DRAGSCROLL_BUFFER_SIZE 6
+#    endif // !CHARYBDIS_DRAGSCROLL_BUFFER_SIZE
+
+
+
 static void read_charybdis_config_from_eeprom(charybdis_config_t* config) {
     config->raw                   = eeconfig_read_kb() & 0xff;
+    config->pointer_dragscroll_dpi = 100;
     config->is_dragscroll_enabled = false;
     config->is_sniping_enabled    = false;
 }
@@ -68,11 +72,7 @@ static uint16_t get_pointer_sniping_dpi(charybdis_config_t* config) {
     return (uint16_t)config->pointer_sniping_dpi * CHARYBDIS_SNIPING_DPI_CONFIG_STEP + CHARYBDIS_MINIMUM_SNIPING_DPI;
 }
 
-//新加
-/** \brief Return the current value of the pointer's dragscroll-mode DPI. */
-static uint16_t get_pointer_dragscroll_dpi(charybdis_config_t* config) {
-    return (uint16_t)config->pointer_dragscroll_dpi;
-}
+
 /** \brief Set the appropriate DPI for the input config. */
 static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
     if (config->is_dragscroll_enabled) {
@@ -102,22 +102,8 @@ static void step_pointer_sniping_dpi(charybdis_config_t* config, bool forward) {
     config->pointer_sniping_dpi += forward ? 1 : -1;
     maybe_update_pointing_device_cpi(config);
 }
-//新加
-static void step_pointer_dragscroll_dpi(charybdis_config_t* config) {
-    config->pointer_dragscroll_dpi += 100;
-    if(config->pointer_dragscroll_dpi > 500){
-               config->pointer_dragscroll_dpi = 100;
-            }
-    maybe_update_pointing_device_cpi(config);
-}
 
-static void step_pointer_dragscroll_dpi_jian(charybdis_config_t* config) {
-    config->pointer_dragscroll_dpi -= 100;
-    if(config->pointer_dragscroll_dpi > 500){
-                config->pointer_dragscroll_dpi = 500;
-            }
-    maybe_update_pointing_device_cpi(config);
-}
+
 
 uint16_t charybdis_get_pointer_default_dpi(void) {
     return get_pointer_default_dpi(&g_charybdis_config);
@@ -125,10 +111,6 @@ uint16_t charybdis_get_pointer_default_dpi(void) {
 
 uint16_t charybdis_get_pointer_sniping_dpi(void) {
     return get_pointer_sniping_dpi(&g_charybdis_config);
-}
-//新加
-uint16_t charybdis_get_pointer_dragscroll_dpi(void) {
-    return get_pointer_dragscroll_dpi(&g_charybdis_config);
 }
 
 void charybdis_cycle_pointer_default_dpi_noeeprom(bool forward) {
@@ -289,17 +271,22 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             break;
         case POINTER_DRAGSCROLL_DPI_FORWARD:
             if (record->event.pressed) {
-                // Step backward if shifted, forward otherwise.
-//                charybdis_cycle_pointer_dragscroll_dpi(/* forward= */ !has_shift_mod());
-                step_pointer_dragscroll_dpi(&g_charybdis_config);
+                g_charybdis_config.pointer_dragscroll_dpi += 100;
+                if(g_charybdis_config.pointer_dragscroll_dpi > 500){
+                           g_charybdis_config.pointer_dragscroll_dpi = 100;
+                        }
+                maybe_update_pointing_device_cpi(&g_charybdis_config);
+                write_charybdis_config_to_eeprom(&g_charybdis_config);
             }
             break;
         case POINTER_DRAGSCROLL_DPI_REVERSE:
             if (record->event.pressed) {
-                // Step forward if shifted, backward otherwise.
-//                charybdis_cycle_pointer_dragscroll_dpi(/* forward= */ has_shift_mod());
-                step_pointer_dragscroll_dpi_jian(&g_charybdis_config);
-
+                g_charybdis_config.pointer_dragscroll_dpi -= 100;
+                if(g_charybdis_config.pointer_dragscroll_dpi > 500){
+                           g_charybdis_config.pointer_dragscroll_dpi = 500;
+                        }
+                maybe_update_pointing_device_cpi(&g_charybdis_config);
+                write_charybdis_config_to_eeprom(&g_charybdis_config);
             }
             break;
         case DRAGSCROLL_MODE:
