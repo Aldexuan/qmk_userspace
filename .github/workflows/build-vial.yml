@@ -53,7 +53,7 @@ jobs:
 
     - name: Install req
         #      run: make ${{ matrix.keyboards }}:vial
-        run: /usr/bin/python3 -m pip install -r /__w/qmk_userspace/qmk_userspace/requirements.txt
+      run: /usr/bin/python3 -m pip install -r /__w/qmk_userspace/qmk_userspace/requirements.txt
 
     - name: compile vial
 #      run: make ${{ matrix.keyboards }}:vial
