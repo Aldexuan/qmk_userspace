@@ -51,6 +51,10 @@ jobs:
     - name: Copy users/keyboards/* to keyboards/*
       run: rsync -av ${{ env.USERSPACE_PATH }}/keyboards/ keyboards/
 
+    - name: Install req
+        #      run: make ${{ matrix.keyboards }}:vial
+        run: /usr/bin/python3 -m pip install -r /__w/qmk_userspace/qmk_userspace/requirements.txt
+
     - name: compile vial
 #      run: make ${{ matrix.keyboards }}:vial
       run: make charybdis/4x6/v2/splinky_2:vial
