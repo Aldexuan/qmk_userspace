@@ -51,8 +51,9 @@ jobs:
       run: rsync -av ${{ env.USERSPACE_PATH }}/keyboards/ keyboards/
 
     - name: compile vial
-      run: make ${{ matrix.keyboards }}/v2/splinky_2:vial
-
+#      run: make ${{ matrix.keyboards }}/v2/splinky_2:vial
+      run: make charybdis/4x6/v2/splinky_2:vial
+#make charybdis/4x6/v2/splinky_2:vial
     - name: Archive firmware
       uses: actions/upload-artifact@v3.1.2
       with:
