@@ -57,7 +57,7 @@ jobs:
 
     - name: compile vial
 #      run: make ${{ matrix.keyboards }}:vial
-      run: make charybdis/4x6/v2/splinky_2:vial
+      run: make charybdis/39/v2/splinky:vial
 
     - name: Strip keyboard name
       id: keyboard-name
