@@ -60,7 +60,7 @@ jobs:
 
     - name: QMK compile
 #      run: qmk compile -j 0 -kb ${{ matrix.keyboards }} -km ${{ github.actor }}
-      run: make charybdis/4x6/v2/splinky_v2:via
+      run: make charybdis/4x6/v2/splinky_2:via
 
 
     - name: Strip keyboard name
