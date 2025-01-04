@@ -20,7 +20,11 @@
 /* VIA configuration. */
 #define DYNAMIC_KEYMAP_LAYER_COUNT 6
 #define DYNAMIC_KEYMAP_MACRO_COUNT 32
+#ifdef VIAL_ENABLE
+/** Vial-specific configuration. */
 
+#define VIAL_KEYBOARD_UID { 0x6D, 0xA5, 0xCD, 0x8D, 0xC7, 0x3D, 0x7B, 0xA8 }
+#endif // VIAL_ENABLE
 #endif     // VIA_ENABLE
 
 /* Charybdis-specific features. */
